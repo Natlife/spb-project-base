@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class User extends BaseEntity{
 
     @Column(unique = true, nullable = false)
-    String username;
+    String userName;
 
     @Column(nullable = false)
     String password;

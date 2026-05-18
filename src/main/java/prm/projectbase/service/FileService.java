@@ -1,5 +1,7 @@
 package prm.projectbase.service;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,15 +19,16 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileService {
 
     @Value("${file.upload-dir:./upload}")
-    private String uploadDir;
+    String uploadDir;
 
     @Value("${file.base-url:http://localhost:5001}")
-    private String baseUrl;
+    String baseUrl;
 
-    private static final List<String> BANNED_EXTENSIONS = List.of(
+    static final List<String> BANNED_EXTENSIONS = List.of(
             ".html", ".htm", ".xhtml", ".js", ".mjs", ".ts", ".jsx", ".tsx", ".svg", ".xml",
             ".php", ".phtml", ".jsp", ".jspx", ".asp", ".aspx", ".py", ".rb", ".pl",
             ".exe", ".bat", ".cmd", ".sh", ".bash", ".ps1", ".vbs", ".dll", ".so", ".msi"

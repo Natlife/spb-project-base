@@ -22,5 +22,5 @@ public class UserUpdateRequest {
 
     Boolean active;
 
-    Long roleId;
+    Integer roleId;
 }

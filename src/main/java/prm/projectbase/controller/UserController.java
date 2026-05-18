@@ -1,5 +1,7 @@
 package prm.projectbase.controller;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import prm.projectbase.config.AuthFilter;
 import prm.projectbase.dto.request.UserCreateRequest;
 import prm.projectbase.dto.request.UserUpdateRequest;
@@ -15,9 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
 
-    private final UserService userService;
+    UserService userService;
 
     @PostMapping
     @AuthFilter(permission = "ADMIN")
@@ -35,21 +38,21 @@ public class UserController {
 
     @GetMapping("/{id}")
     @AuthFilter(permission = "ADMIN") // Allowed for ADMIN Globally, or standard USER if viewing their own ID
-    public BaseResponse<UserResponse> getUserById(@PathVariable Long id) {
+    public BaseResponse<UserResponse> getUserById(@PathVariable Integer id) {
         UserResponse response = userService.getUserById(id);
         return BaseResponse.success(response, "Get user by ID successfully");
     }
 
     @PutMapping("/{id}")
     @AuthFilter(permission = "ADMIN") // Allowed for ADMIN Globally, or standard USER if updating their own ID
-    public BaseResponse<UserResponse> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
+    public BaseResponse<UserResponse> updateUser(@PathVariable Integer id, @RequestBody @Valid UserUpdateRequest request) {
         UserResponse response = userService.updateUser(id, request);
         return BaseResponse.success(response, "User updated successfully");
     }
 
     @DeleteMapping("/{id}")
     @AuthFilter(permission = "ADMIN")
-    public BaseResponse<Void> deleteUser(@PathVariable Long id) {
+    public BaseResponse<Void> deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return BaseResponse.success(null, "User deleted successfully");
     }

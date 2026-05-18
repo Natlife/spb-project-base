@@ -1,5 +1,7 @@
 package prm.projectbase.controller;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import prm.projectbase.dto.request.LoginRequest;
 import prm.projectbase.dto.request.RegisterRequest;
 import prm.projectbase.dto.response.AuthResponse;
@@ -15,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
 
-    private final AuthService authService;
+    AuthService authService;
 
     @PostMapping("/register")
     public BaseResponse<AuthResponse> register(@RequestBody @Valid RegisterRequest request) {

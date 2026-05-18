@@ -1,5 +1,7 @@
 package prm.projectbase.service;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import prm.projectbase.dto.request.LoginRequest;
 import prm.projectbase.dto.request.RegisterRequest;
 import prm.projectbase.dto.response.AuthResponse;
@@ -19,12 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    UserRepository userRepository;
+    RoleRepository roleRepository;
+    PasswordEncoder passwordEncoder;
+    JwtUtil jwtUtil;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -40,7 +43,7 @@ public class AuthService {
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
 
         User user = User.builder()
-                .username(request.getUsername())
+                .userName(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .fullName(request.getFullName())
@@ -92,7 +95,7 @@ public class AuthService {
 
         return UserResponse.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .username(user.getUserName())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .active(user.isActive())

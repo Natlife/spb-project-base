@@ -37,7 +37,7 @@ public class Application {
 
 				// 2. Initialize Users (Hashed passwords)
 				userRepository.save(User.builder()
-						.username("admin")
+						.userName("admin")
 						.password(passwordEncoder.encode("admin123"))
 						.email("admin@prm.com")
 						.fullName("System Administrator")
@@ -46,7 +46,7 @@ public class Application {
 						.build());
 
 				userRepository.save(User.builder()
-						.username("user")
+						.userName("user")
 						.password(passwordEncoder.encode("user123"))
 						.email("user@prm.com")
 						.fullName("Standard User")

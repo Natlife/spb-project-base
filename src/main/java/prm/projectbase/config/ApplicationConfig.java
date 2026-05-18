@@ -52,7 +52,7 @@ public class ApplicationConfig {
                         authorities.add(new org.springframework.security.core.authority.SimpleGrantedAuthority(user.getRole().getName()));
                     }
                     return new org.springframework.security.core.userdetails.User(
-                            user.getUsername(),
+                            user.getUserName(),
                             user.getPassword(),
                             user.isActive(),
                             true, true, true,

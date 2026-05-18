@@ -27,5 +27,5 @@ public class UserCreateRequest {
 
     String fullName;
 
-    Long roleId;
+    Integer roleId;
 }

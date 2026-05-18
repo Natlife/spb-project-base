@@ -11,11 +11,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class Role extends BaseEntity{
 
     @Column(unique = true, nullable = false)
     String name; // e.g. "ROLE_ADMIN", "ROLE_USER", "ROLE_MANAGER"

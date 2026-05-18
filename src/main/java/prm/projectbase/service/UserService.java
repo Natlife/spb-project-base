@@ -1,5 +1,7 @@
 package prm.projectbase.service;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import prm.projectbase.dto.request.UserCreateRequest;
 import prm.projectbase.dto.request.UserUpdateRequest;
 import prm.projectbase.dto.response.RoleResponse;
@@ -20,11 +22,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
+    RoleRepository roleRepository;
+    PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
@@ -45,7 +48,7 @@ public class UserService {
         }
 
         User user = User.builder()
-                .username(request.getUsername())
+                .userName(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .fullName(request.getFullName())
@@ -57,7 +60,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponse updateUser(Long id, UserUpdateRequest request) {
+    public UserResponse updateUser(Integer id, UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -90,7 +93,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponse getUserById(Long id) {
+    public UserResponse getUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         return mapToUserResponse(user);
@@ -104,10 +107,27 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long id) {
+    public void deleteUser(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         userRepository.delete(user);
+    }
+
+    public UserResponse findByNameAndEmail(String name, String email){
+        if (name != null) {
+            name = "%" + name.trim().toLowerCase() + "%";
+        }
+        else {
+            name = "%%";
+        }
+        if (email != null) {
+            email = "%" + email.trim().toLowerCase() + "%";
+        }
+        else {
+            email = "%%";
+        }
+        return userRepository.findByNameAndEmail(name, email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
     private UserResponse mapToUserResponse(User user) {
@@ -124,7 +144,7 @@ public class UserService {
 
         return UserResponse.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .username(user.getUserName())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .active(user.isActive())
