@@ -10,13 +10,13 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUserName(String userName);
     Optional<User> findByEmail(String email);
-    boolean existsByUsername(String username);
+    boolean existsByUserName(String userName);
     boolean existsByEmail(String email);
 
-    @Query("""
-        SELECT new pm.projectbase.dto.response.UserResponse(
+    @Query(value = """
+        SELECT new prm.projectbase.dto.response.UserResponse(
             u.id, u.userName, u.email, u.fullName, u.active
         )
         FROM User u

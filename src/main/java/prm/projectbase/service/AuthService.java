@@ -31,7 +31,7 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUserName(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -62,7 +62,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
+        User user = userRepository.findByUserName(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_CREDENTIALS));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -95,7 +95,7 @@ public class AuthService {
 
         return UserResponse.builder()
                 .id(user.getId())
-                .username(user.getUserName())
+                .userName(user.getUserName())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .active(user.isActive())

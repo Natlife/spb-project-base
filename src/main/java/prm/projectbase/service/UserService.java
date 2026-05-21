@@ -31,7 +31,7 @@ public class UserService {
 
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUserName(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -144,7 +144,7 @@ public class UserService {
 
         return UserResponse.builder()
                 .id(user.getId())
-                .username(user.getUserName())
+                .userName(user.getUserName())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .active(user.isActive())

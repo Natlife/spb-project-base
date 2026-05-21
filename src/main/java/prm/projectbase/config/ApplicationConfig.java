@@ -44,7 +44,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
+        return username -> userRepository.findByUserName(username)
                 .map(user -> {
                     List<org.springframework.security.core.GrantedAuthority> authorities = new ArrayList<>();
                     if (user.getRole() != null) {

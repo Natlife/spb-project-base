@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 public class UserResponse {
 
     int id;
-    String username;
+    String userName;
     String email;
     String fullName;
     boolean active;
@@ -19,7 +19,7 @@ public class UserResponse {
 
     public UserResponse(int id, String username, String email, String fullName, boolean active) {
         this.id = id;
-        this.username = username;
+        this.userName = username;
         this.email = email;
         this.fullName = fullName;
         this.active = active;
